@@ -49258,6 +49258,21 @@ module.exports = notFoundPage;
 var React = require('react');
 
 var About = React.createClass({displayName: "About",
+  statics: {
+    willTransitionTo: function(transition, params, query, callback) {
+      if (!confirm("Are you sure you want to read a page that\'s this boring?")) {
+        transition.about();
+      }else{
+        callback();
+      }
+    },
+      willTransitionFrom: function(transition, component) {
+        if (!confirm("Are you sure you want to leave a page that\'s this exciting?")) {
+          transition.about();
+        }
+    }
+  },
+
   render: function() {
     return(
       React.createElement("div", null, 
@@ -49441,13 +49456,17 @@ var Router = require('react-router');
 var DefaultRoute = Router.DefaultRoute;
 var Route = Router.Route;
 var NotFoundRoute = Router.NotFoundRoute;
+var Redirect = Router.Redirect;
 
 var routes = (
   React.createElement(Route, {name: "app", path: "/", handler: require('./components/app')}, 
     React.createElement(DefaultRoute, {handler: require('./components/homePage')}), 
     React.createElement(Route, {name: "authors", handler: require('./components/authors/authorPage')}), 
     React.createElement(Route, {name: "about", handler: require('./components/about/aboutPage')}), 
-    React.createElement(NotFoundRoute, {handler: require('./components/404')})
+    React.createElement(NotFoundRoute, {handler: require('./components/404')}), 
+    React.createElement(Redirect, {from: "about-us", to: "about"}), 
+    React.createElement(Redirect, {from: "awthurs", to: "authors"}), 
+    React.createElement(Redirect, {from: "about/*", to: "about"})
   )
 );
 
