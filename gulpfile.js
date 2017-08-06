@@ -9,6 +9,7 @@ var source = require('vinyl-source-stream'); //Use conventional text streams wit
 var concat = require('gulp-concat'); //Concatenates files
 var lint = require('gulp-eslint'); //Link JS files, including JSX
 
+
 var config = {
   port: 9005,
   devBaseUrl: 'http://localhost',
@@ -69,8 +70,8 @@ gulp.task('lint', function() {
 
 gulp.task('watch', function() {
   gulp.watch(config.paths.html, ['html']);
-  gulp.watch(config.paths.js, ['js']);
+  gulp.watch(config.paths.js, ['js', 'lint']);
   gulp.watch(config.paths.css, ['css']);
 });
 
-gulp.task('default', ['html', 'js', 'css', 'open', 'watch']);
+gulp.task('default', ['html', 'js', 'css', 'lint', 'open', 'watch']);
